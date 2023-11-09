@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\ActivityRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: ActivityRepository::class)]
 class Activity
@@ -12,24 +13,31 @@ class Activity
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['getActivity'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['getActivity'])]
     private ?string $type = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['getActivity'])]
     private ?string $duration = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['getActivity'])]
     private ?string $distance = null;
 
     #[ORM\Column]
+    #[Groups(['getActivity'])]
     private ?float $calories_burned = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
+    #[Groups(['getActivity'])]
     private ?\DateTimeInterface $date = null;
 
     #[ORM\ManyToOne(inversedBy: 'activities')]
+    #[Groups(['getActivity'])]
     private ?User $user = null;
 
     public function getId(): ?int

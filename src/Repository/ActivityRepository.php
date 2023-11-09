@@ -21,28 +21,42 @@ class ActivityRepository extends ServiceEntityRepository
         parent::__construct($registry, Activity::class);
     }
 
-//    /**
-//     * @return Activity[] Returns an array of Activity objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('a')
-//            ->andWhere('a.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('a.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+    public function getByDate(int $id)
+    {
+        $query = $this->createQueryBuilder('a');
+        if (!empty($id)) {
+            $query->andWhere('a.user = :id')
+                ->setParameter('id', $id)
+                ->orderBy('a.duration','DESC')
+            ;
 
-//    public function findOneBySomeField($value): ?Activity
-//    {
-//        return $this->createQueryBuilder('a')
-//            ->andWhere('a.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+        }
+        return $query->getQuery()->getResult();
+    }
+
+    public function getByBurnedCalories(int $id)
+    {
+        $query = $this->createQueryBuilder('a');
+        if (!empty($id)) {
+            $query->andWhere('a.user = :id')
+                ->setParameter('id', $id)
+                ->orderBy('a.calories_burned','DESC')
+            ;
+
+        }
+        return $query->getQuery()->getResult();
+    }
+
+    public function getByType(int $id, string $type)
+    {
+        $query = $this->createQueryBuilder('a');
+        if (!empty($id)) {
+            $query->andWhere('a.user = :id AND a.type LIKE :type')
+                ->setParameter('id', $id)
+                ->setParameter('type', '%'.$type.'%')
+            ;
+
+        }
+        return $query->getQuery()->getResult();
+    }
 }
